@@ -182,17 +182,3 @@ Each sync fetches up to 100 products, upserts them into the `products` table, cr
 | timestamps | — |
 
 ---
-
-## Running Tests
-
-```bash
-composer run test
-# or
-php artisan test
-```
-
----
-
-## License
-
-This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
