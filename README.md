@@ -108,20 +108,6 @@ DB_PASSWORD=your_password
 
 ## Running the Application
 
-### Development (with hot-reload)
-
-```bash
-composer run dev
-```
-
-This starts four concurrent processes:
-- `php artisan serve` — Laravel development server at `http://localhost:8000`
-- `npm run dev` — Vite HMR server
-- `php artisan queue:listen` — queue worker
-- `php artisan pail` — real-time log viewer
-
-### Production
-
 ```bash
 npm run build
 php artisan serve
@@ -196,17 +182,3 @@ Each sync fetches up to 100 products, upserts them into the `products` table, cr
 | timestamps | — |
 
 ---
-
-## Running Tests
-
-```bash
-composer run test
-# or
-php artisan test
-```
-
----
-
-## License
-
-This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
