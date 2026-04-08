@@ -5,10 +5,10 @@ A Laravel-based web dashboard that fetches product data from the [DummyJSON API]
 ## Features
 
 - **Dashboard** — visual analytics with Chart.js:
-  - Products per category (bar chart)
-  - Stock distribution: Out of Stock / Low / Medium / High (doughnut chart)
+  - Products per category (doughnut chart)
+  - Products Added Over Time (bar chart)
   - Average rating per category (bar chart)
-  - Price distribution: 0-50 / 50-100 / 100-500 / 500+ (bar chart)
+  - Stock distribution: Out of Stock / Low / Medium / High (doughnut chart)
 - **Products** — list, create, edit, and delete products
 - **Sync** — pull the latest 100 products from `https://dummyjson.com/products` into the local database with one click
 - **Sync log** — every sync attempt is recorded (timestamp, total records, status)
@@ -26,7 +26,7 @@ A Laravel-based web dashboard that fetches product data from the [DummyJSON API]
 
 ## Requirements
 
-- PHP ≥ 8.2 with the `pdo_sqlite` extension enabled
+- PHP ≥ 8.2
 - Composer
 - Node.js ≥ 18 & npm
 
