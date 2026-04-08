@@ -37,7 +37,7 @@
         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
             <div>
                 <p class="text-sm font-medium text-gray-500 mb-1">Top Category</p>
-                <h2 class="text-xl font-bold text-gray-800">{{ $topCategory->name ?? 'Belum ada' }}</h2>
+                <h2 class="text-xl font-bold text-gray-800">{{ $topCategory->name ?? '-' }}</h2>
             </div>
             <div class="w-12 h-12 bg-green-50 text-green-600 rounded-full flex items-center justify-center text-xl">
                 <i class="fa-solid fa-star"></i>
@@ -48,7 +48,7 @@
             <div>
                 <p class="text-sm font-medium text-gray-500 mb-1">Latest Product</p>
                 <h2 class="text-lg font-bold text-gray-800 truncate max-w-37.5">
-                    {{ $latestProduct->title ?? 'Belum ada' }}</h2>
+                    {{ $latestProduct->title ?? '-' }}</h2>
             </div>
             <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center text-xl">
                 <i class="fa-solid fa-clock"></i>
@@ -70,11 +70,11 @@
 
         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
             <div class="flex items-center gap-2 mb-4">
-                <i class="fa-solid fa-boxes-packing text-orange-500"></i>
-                <h3 class="text-lg font-semibold text-gray-700">Stock Distribution</h3>
+                <i class="fa-solid fa-calendar-day text-green-500"></i>
+                <h3 class="text-lg font-semibold text-gray-700">Products Added Over Time</h3>
             </div>
             <div class="relative h-64 w-full">
-                <canvas id="stockChart"></canvas>
+                <canvas id="barChart"></canvas>
             </div>
         </div>
 
@@ -90,17 +90,18 @@
 
         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
             <div class="flex items-center gap-2 mb-4">
-                <i class="fa-solid fa-tags text-green-500"></i>
-                <h3 class="text-lg font-semibold text-gray-700">Price Distribution</h3>
+                <i class="fa-solid fa-boxes-packing text-orange-500"></i>
+                <h3 class="text-lg font-semibold text-gray-700">Stock Distribution</h3>
             </div>
             <div class="relative h-64 w-full">
-                <canvas id="priceChart"></canvas>
+                <canvas id="stockChart"></canvas>
             </div>
         </div>
 
     </div>
 
     <script>
+        // --- Konfigurasi Global Chart ---
         const chartOptions = {
             responsive: true,
             maintainAspectRatio: false,
@@ -163,25 +164,27 @@
             options: doughnutOptions
         });
 
-        // 2. STOCK CHART
-        const stockLabels = {!! json_encode(array_keys($stockDistribution)) !!};
-        const stockData = {!! json_encode(array_values($stockDistribution)) !!};
-        new Chart(document.getElementById('stockChart'), {
-            type: 'doughnut',
+        // 2. DATE CHART
+        const dateLabels = {!! json_encode($dateData->pluck('date') ?? []) !!};
+        const dateTotals = {!! json_encode($dateData->pluck('total') ?? []) !!};
+        new Chart(document.getElementById('barChart'), {
+            type: 'bar',
             data: {
-                labels: stockLabels,
+                labels: dateLabels,
                 datasets: [{
-                    data: stockData,
-                    backgroundColor: ['#EF4444', '#F59E0B', '#3B82F6', '#10B981'],
-                    hoverOffset: 4
+                    label: 'Products Added',
+                    data: dateTotals,
+                    backgroundColor: '#10B981', // Emerald/Green
+                    borderRadius: 6,
+                    borderSkipped: false
                 }]
             },
-            options: doughnutOptions
+            options: chartOptions
         });
 
         // 3. RATING CHART
-        const ratingLabels = {!! json_encode($ratingData->pluck('name')) !!};
-        const ratingValues = {!! json_encode($ratingData->pluck('avg_rating')) !!};
+        const ratingLabels = {!! json_encode($ratingData->pluck('name') ?? []) !!};
+        const ratingValues = {!! json_encode($ratingData->pluck('avg_rating') ?? []) !!};
         new Chart(document.getElementById('ratingChart'), {
             type: 'bar',
             data: {
@@ -189,7 +192,7 @@
                 datasets: [{
                     label: 'Average Rating',
                     data: ratingValues,
-                    backgroundColor: '#8B5CF6', // Indigo/Purple
+                    backgroundColor: '#8B5CF6', // Indigo
                     borderRadius: 6,
                     borderSkipped: false
                 }]
@@ -206,22 +209,20 @@
             }
         });
 
-        // 4. PRICE CHART
-        const priceLabels = {!! json_encode(array_keys($priceDistribution)) !!};
-        const priceValues = {!! json_encode(array_values($priceDistribution)) !!};
-        new Chart(document.getElementById('priceChart'), {
-            type: 'bar',
+        // 4. STOCK CHART
+        const stockLabels = {!! json_encode(array_keys($stockDistribution ?? [])) !!};
+        const stockData = {!! json_encode(array_values($stockDistribution ?? [])) !!};
+        new Chart(document.getElementById('stockChart'), {
+            type: 'doughnut',
             data: {
-                labels: priceLabels,
+                labels: stockLabels,
                 datasets: [{
-                    label: 'Products',
-                    data: priceValues,
-                    backgroundColor: '#10B981', // Emerald/Green
-                    borderRadius: 6,
-                    borderSkipped: false
+                    data: stockData,
+                    backgroundColor: ['#EF4444', '#F59E0B', '#3B82F6', '#10B981'],
+                    hoverOffset: 4
                 }]
             },
-            options: chartOptions
+            options: doughnutOptions
         });
     </script>
 @endsection

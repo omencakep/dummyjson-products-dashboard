@@ -42,25 +42,25 @@ class DashboardController extends Controller
             ->groupBy('categories.name')
             ->get();
 
-        // $dateData = Product::select(
-        //     DB::raw('DATE(last_synced_at) as date'),
-        //     DB::raw('count(*) as total')
-        // )
-        //     ->whereNotNull('last_synced_at')
-        //     ->whereBetween(
-        //         'last_synced_at',
-        //         [$start, $end]
-        //     )->groupBy('date')->orderBy('date')->get();
+        $dateData = Product::select(
+            DB::raw('DATE(last_synced_at) as date'),
+            DB::raw('count(*) as total')
+        )
+            ->whereNotNull('last_synced_at')
+            ->whereBetween(
+                'last_synced_at',
+                [$start, $end]
+            )->groupBy('date')->orderBy('date')->get();
 
         // STOCK DISTRIBUTION
         $stockDistribution = [
             'Out of Stock' =>
             Product::where('stock', 0)->count(),
-            'Low Stock' =>
+            'Low Stock (1-20)' =>
             Product::whereBetween('stock', [1, 20])->count(),
-            'Medium Stock' =>
+            'Medium Stock (21-50)' =>
             Product::whereBetween('stock', [21, 50])->count(),
-            'High Stock' =>
+            'High Stock (50+)' =>
             Product::where('stock', '>', 50)->count()
         ];
 
@@ -100,7 +100,7 @@ class DashboardController extends Controller
             'stockDistribution',
 
             'ratingData',
-            'priceDistribution',
+            'dateData',
 
             'start',
             'end'
