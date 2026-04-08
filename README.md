@@ -31,7 +31,7 @@ A modern, responsive web dashboard for browsing, searching, and managing product
 - 🏷️ **Category Filter** – Filter products by category (e.g., Electronics, Clothing, Groceries).
 - 📄 **Pagination** – Navigate through large result sets with intuitive pagination controls.
 - 📊 **Product Detail View** – View full product details including stock, brand, discount, and description.
-- 📱 **Responsive Design** – Optimised for desktop, tablet, and mobile screens.
+- 📱 **Responsive Design** – Optimized for desktop, tablet, and mobile screens.
 
 ---
 
